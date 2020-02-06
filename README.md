@@ -1,2 +1,2 @@
 # DIT.py
-Modifying data stored in lists
+# Modifying data stored in collections
