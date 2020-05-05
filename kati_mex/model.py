@@ -1,6 +1,9 @@
-from typing import NamedTuple
-from typing import Set
 from enum import IntEnum
+from datetime import datetime
+from numbers import Decimal
+from typing import NamedTuple
+from typing import List
+from typing import Set
 
 
 class Spicyness(IntEnum):
@@ -24,6 +27,7 @@ class Dish(NamedTuple):
     name: str
     spyciness: Spicyness = Spicyness.Undefined
     size: Size = Size.Undefined
+    price: Decimal
 
 
 class Side(NamedTuple):
@@ -45,6 +49,31 @@ class Employee(NamedTuple):
     number: int
     name: str
     role: Role = Role.Undefined
+
+
+class OrderHeader(NamedTuple):
+    date: datetime
+    taker: Employee
+    deliver: bool
+    address: List[str]
+
+
+class OrderItem(NamedTuple):
+    dish: Dish
+    quantity: int
+    price: Decimal
+
+
+class OrderFooter(NamedTuple):
+    sub_total: Decimal
+    tax: Decimal
+    total: Decimal
+
+
+class Order(NamedTuple):
+    header: OrderHeader
+    items: List[OrderItem]
+    footer: OrderFooter
 
 
 def menu() -> Set[str]:
