@@ -33,7 +33,7 @@ def new_dish(name: str, spicyness: Spicyness) -> Dish:
     Returns:
         A new dish.
     """
-    if name == "" or is None:
+    if (name == "") or (name is None):
         raise ValueError('Dish name cannot be empty or None.')
 
     result = Dish(name=name, spicyness=spicyness)
@@ -54,7 +54,7 @@ def new_side(name: str) -> Side:
     Returns:
         A new side dish.
     """
-    if name == "" or is None:
+    if (name == "") or (name is None):
         raise ValueError('Dish name cannot be empty or None.')
 
     result = Side(name=name)
@@ -79,7 +79,7 @@ class Employee(NamedTuple):
     role: Role = Role.Undefined
 
 
-def new_employee(name: str, role: Role) -> Employee:
+def new_employee(number: str, name: str, role: Role) -> Employee:
     """ Create a new employee.
 
     Args:
