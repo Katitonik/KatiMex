@@ -1,0 +1,36 @@
+from collections import namedtuple
+Dish = namedtuple('Dish', ['name', 'spicyness', 'sizes', 'extras'])
+from enum import IntEnum:
+    Mild = 0
+from enum import IntEnum
+class Spicyness(IntEnum):
+    Mild = 0
+    Medium = 10
+    Hot = 20
+    JGTBFKM = 30
+dir(Dish)
+class Size(IntEnum)"
+class Size(IntEnum):
+    S = 0
+    M = 10
+    L = 20
+    YGTBFKM = 30
+dir(Dish)
+Dish = namedtuple('Dish', ['name', 'spicyness', 'sizes', 'extras'])
+gwak = Dish(name='Gwak', spicyness=Spicyness.Medium, sizes=[Size.M, Size.L], extras='')
+gwak
+twak = Dish(name='Twak', spicyness=Spicyness.JGTBFKM, sizes=[Size.M, Size.L], extras='')
+menu = [gwak, twak]
+menu
+from json import dumps, loads
+dumps(menu)
+for dish in loads(dumps(menu)):
+    print(Dish(dish[0], dish[1], dish[2], dish[3]))
+Employee = namedtuple('Employee', ['id', 'name', 'role', 'psswdhash'])
+sam = Employee(id=0, name='Sam', role='reception', psswdhash=hash("Dis 'n geheim!"))
+sam
+jo = Employee(id=10, name='Jo', role='delivery', psswdhash=hash("Fok ek het vergeet!"))
+jo
+employees = [sam, jo]
+employees
+%history -f blah
