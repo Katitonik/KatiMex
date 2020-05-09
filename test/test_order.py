@@ -12,7 +12,7 @@ def test_single_small_dish_order_item():
     assert lhs == rhs
 
 
-def test_multiple_small_dish_order_item():
+def test_multiple_small_dish_order_items():
     dish = model.new_dish('Mole', model.Spicyness.Hot)
     item = model.new_order_item(dish, 3, model.Size.Small)
     lhs = Decimal('30.00')
@@ -21,7 +21,7 @@ def test_multiple_small_dish_order_item():
     assert lhs == rhs
 
 
-def test_multiple_medium_dish_order_item():
+def test_multiple_medium_dish_order_items():
     dish = model.new_dish('Mole', model.Spicyness.Hot)
     item = model.new_order_item(dish, 3, model.Size.Medium)
     lhs = Decimal('36.00')
@@ -39,7 +39,7 @@ def test_single_small_side_order_item():
     assert lhs == rhs
 
 
-def test_multiple_small_side_order_item():
+def test_multiple_small_side_order_items():
     side = model.new_side('Chips')
     item = model.new_order_item(side, 3, model.Size.Small)
     lhs = Decimal('9.00')
@@ -48,7 +48,7 @@ def test_multiple_small_side_order_item():
     assert lhs == rhs
 
 
-def test_multiple_large_side_order_item():
+def test_multiple_large_side_order_items():
     side = model.new_side('Chips')
     item = model.new_order_item(side, 3, model.Size.Large)
     lhs = Decimal('11.70')
@@ -61,7 +61,7 @@ def _mk_employee():
     return model.new_employee("Jo", model.Role.Cashier)
 
 
-def test_order_deliver_header():
+def test_delivery_order_header():
     header = model.new_order_header(
         taker=_mk_employee(),
         deliver=True,
@@ -74,7 +74,7 @@ def test_order_deliver_header():
     assert header
 
 
-def test_order_deliver_failure_header():
+def test_delivery_order_header_failure():
     with pytest.raises(ValueError):
         model.new_order_header(
             taker=_mk_employee(),
