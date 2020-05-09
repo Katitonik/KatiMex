@@ -9,8 +9,6 @@ from typing import Union
 
 class Spicyness(IntEnum):
     """ An indicator of how spycy a dish is. """
-    # TODO: remove `Undefined` eunmeration?
-    Undefined = 0
     Mild = 10
     Hot = 20
     Flaming = 50
@@ -27,8 +25,8 @@ def new_dish(name: str, spicyness: Spicyness) -> Dish:
     """ Create a new dish.
 
     Args:
-        name: The name of this dish.
-        spicyness: See Spicyness.
+        name (str): The name of this dish.
+        spicyness (Spicyness): See Spicyness.
 
     Returns:
         A new dish.
@@ -49,7 +47,7 @@ def new_side(name: str) -> Side:
     """ Create a side dish.
 
     Args:
-        name: The name of the side dish.
+        name (str): The name of the side dish.
 
     Returns:
         A new side dish.
@@ -63,8 +61,6 @@ def new_side(name: str) -> Side:
 
 class Role(IntEnum):
     """ The role of an employee. ¡Ole! """
-    # TODO: remove `Undefined` eunmeration?
-    Undefined = 0
     Chef = 10
     Server = 20
     Driver = 30
@@ -76,58 +72,87 @@ class Employee(NamedTuple):
     """ An employee of KatiMex. ¡Ándele, ándele! """
     number: str
     name: str
-    role: Role = Role.Undefined
+    role: Role
 
 
-def new_employee(number: str, name: str, role: Role) -> Employee:
+def _generate_id(now: datetime) -> str:
+    tt = now.timetuple()
+    ty = tt.tm_year
+    td = tt.tm_yday
+    tc = (tt.tm_hour * 3600) + (tt.tm_min * 60) + tt.tm_sec
+
+    result = f'{ty}-{td}{tc}'
+    return result
+
+
+def new_employee(name: str, role: Role) -> Employee:
     """ Create a new employee.
 
     Args:
-        name: The employee's name.
-        role: The role of the employee.
+        name (str): The employee's name.
+        role (Role): The role of the employee.
 
     Returns:
         A new employee.
     """
-    # TODO: number should be auto-generated
-    result = Employee(number=number, name=name, role=role)
+    now = datetime.now()
+    result = Employee(number=_generate_id(now), name=name, role=role)
     return result
 
 
 class OrderHeader(NamedTuple):
     """ Order header to identify the order. """
-    # TODO: there should be an auto-generated order number
+    number: str
     date: datetime
     taker: Employee
     deliver: bool
-    address: List[str]
+    client_name: str
+    client_contact: str
+    client_street: str
+    client_suburb: str
 
 
 def new_order_header(
     taker: Employee,
     deliver: bool,
-    address: List[str]
+    client_name: str,
+    client_contact: str,
+    client_street: str,
+    client_suburb: str
 ) -> OrderHeader:
     """ Create a new order header.
 
     Args:
-        taker: Who took the order?
-        deliver: Is this order for delivery?
-        address: What is the delivery address?
+        taker (Employee): Who took the order?
+        deliver (bool): Is this order for delivery?
+        client_name (str): Client identifier.
+        client_contact (str): Contact telephone nmber.
+        client_street (str): Street name.
+        client_suburb (str): Ditto.
 
     Returns:
         A new order header.
     """
+    if deliver:
+        if (not client_street) and (not client_suburb):
+            raise ValueError('Street and suburb required for deliveries.')
+
+    now = datetime.now()
     result = OrderHeader(
-        date=datetime.now(), taker=taker, deliver=deliver, address=address
+        number=_generate_id(now),
+        date=now,
+        taker=taker,
+        deliver=deliver,
+        client_name=client_name,
+        client_contact=client_contact,
+        client_street=client_street,
+        client_suburb=client_suburb
     )
     return result
 
 
 class Size(IntEnum):
     """ How big is the dish or side dish? """
-    # TODO: remove `Undefined` eunmeration?
-    Undefined = 0
     Small = 10
     Medium = 20
     Large = 30
@@ -149,8 +174,9 @@ def _lookup_price(item: Union[Dish, Side], size: Size) -> Decimal:
     # Look up a dish or side dish's price.
     #
     # Args:
-    #     item: The dish or side dish for which the price will be looked up.
-    #     size: The size the item.
+    #     item (Union[Dish, Side]): The dish or side dish for which the
+    # price will be looked up.
+    #     size (Size): The size the item.
     #
     # Returns:
     #     A price based on the dish/side dish and the size of the item.
@@ -194,9 +220,9 @@ def new_order_item(
     """ Create a new order item.
 
     Args:
-        item: The line item.
-        quantity: How many do you want?
-        size: What size is the item?
+        item (Union[Dish, Side]): The line item.
+        quantity (int): How many do you want?
+        size (Size): What size is the item?
 
     Returns:
         An order line.
@@ -215,27 +241,42 @@ def new_order_item(
 
 class OrderFooter(NamedTuple):
     """ Summary of an order. """
-    sub_total: Decimal
+    delivery_charge: Decimal
+    item_total: Decimal
     tax: Decimal
     total: Decimal
 
 
-def new_order_footer(items: List[OrderItem]) -> OrderFooter:
+def new_order_footer(
+    header: OrderHeader,
+    items: List[OrderItem]
+) -> OrderFooter:
     """  Create an order footer.
 
     Args:
-        items: The line iems of the order.
+        header (OrderHeader): Order header to check fordelivery charge.
+        items (List[OrderItem]): The line iems of the order.
 
     Returns:
         A order footer with calculated subtotal, tax and total.
     """
-    sub_total = Decimal('0.00')
-    for item in items:
-        sub_total += item.item_price
-    tax = sub_total * Decimal('0.14')
-    total = sub_total + tax
+    delivery_charge = Decimal('0.00')
+    if header.deliver:
+        delivery_charge = Decimal('3.00')
 
-    result = OrderFooter(sub_total=sub_total, tax=tax, total=total)
+    item_total = Decimal('0.00')
+    for item in items:
+        item_total += item.item_price
+
+    tax = item_total * Decimal('0.14')
+
+    total = delivery_charge + item_total + tax
+
+    result = OrderFooter(
+        delivery_charge=delivery_charge,
+        item_total=item_total,
+        tax=tax,
+        total=total)
     return result
 
 
@@ -257,9 +298,9 @@ def new_order(
     """ Create an order.
 
     Args:
-        header: Order header.
-        items: Order line items.
-        footer: Order footer.
+        header (OrderHeader): Order header.
+        items (List[OrderItem]): Order line items.
+        footer (OrderFooter): Order footer.
 
     Returns:
         A newly created order.
