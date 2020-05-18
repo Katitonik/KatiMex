@@ -4,7 +4,7 @@ from tkinter import ttk
 app = Tk.Tk()
 app.geometry("400x400")
 
-labelTop = Tk.Label(app, text = "El Fuego Cocoracha")
+labelTop = Tk.Label(app, text="El Fuego Cocoracha")
 labelTop.grid(column=0, row=0)
 
 comboExample = ttk.Combobox(app, values=["Nachos", "Mole", "Enchiladas"])
