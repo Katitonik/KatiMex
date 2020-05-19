@@ -62,8 +62,8 @@ ent_street = tk.Entry(master=frm_header, textvariable=var_street)
 
 lbl_suburb = tk.Label(master=frm_header, text='Suburb:')
 cbx_suburb = ttk.Combobox(master=frm_header, textvariable=var_suburb, values=["Browns Bay",
-                                                                            "Torbay",
-                                                                            "Long Bay",])
+                                                                              "Torbay",
+                                                                              "Long Bay"])
 
 lbl_header.grid(row=0, column=0, sticky=tk.W)
 frm_header.grid(row=1, column=1)
@@ -107,8 +107,8 @@ cbx_spic = ttk.Combobox(master=frm_items, textvariable=var_spic, values=["Mild",
 
 lbl_size = tk.Label(master=frm_items, text='Size: ')
 ent_size = ttk.Combobox(master=frm_items, textvariable=var_size, values=["Small",
-                                                                     "Medium",
-                                                                     "Large"])
+                                                                         "Medium",
+                                                                         "Large"])
 
 lbl_qty = tk.Label(master=frm_items, text='Quantity:')
 ent_qty = tk.Entry(master=frm_items, textvariable=var_qty)
@@ -132,7 +132,7 @@ btn_add.grid(row=6, column=8)
 btn_remove.grid(row=7, column=6, sticky=tk.N)
 lst_items.grid(row=7, columnspan=6)
 
-for i in "1,2,3,4".split(','):
+for i in "1,2,3,4,5".split(','):
     lst_items.insert(tk.END, i)
 
 # footer
