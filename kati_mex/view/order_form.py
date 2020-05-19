@@ -129,7 +129,8 @@ lbl_ttl.grid(row=13, column=6, sticky=tk.E)
 
 # buttons
 btn_ok = tk.Button(master=form, command=ok_order, width=10, text='Ok')
-btn_cancel = tk.Button(master=form, command=cancel_order, width=10, text='Cancel')
+btn_cancel = tk.Button(master=form, command=cancel_order,
+                       width=10, text='Cancel')
 btn_exit = tk.Button(master=form, command=exit_order, width=10, text='Exit')
 
 btn_ok.grid(row=12, column=2)
