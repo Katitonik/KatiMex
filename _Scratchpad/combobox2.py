@@ -28,4 +28,3 @@ menuitem['values'] = ('Nachos',
 menuitem.grid(column=1, row=5)
 menuitem.current()
 window.mainloop()
-

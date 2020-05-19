@@ -31,8 +31,9 @@ Mole = Dish("Mole", spicyness.Hot, size.How)
 Aguachile = Dish("Aguachile", spicyness.Why, size.How)
 Enchiladas = Dish("Enchiladas", spicyness.Mild, size.L)
 
-menu = [Nachos, Hard_Shell_Tacos, Soft_Shell_Tacos, Chiles_Rellenos, Chimichangas,
-        Chilato_de_Pollo, Sopa_de_Cameron, Cochnita_pibli, Mole, Aguachile, Enchiladas]
+menu = [Nachos, Hard_Shell_Tacos, Soft_Shell_Tacos, Chiles_Rellenos,
+        Chimichangas, Chilato_de_Pollo, Sopa_de_Cameron,
+        Cochnita_pibli, Mole, Aguachile, Enchiladas]
 
 menu.sort()
 
@@ -61,7 +62,8 @@ print(extra)
 
 # The information of the employee
 Employee = namedtuple("Employee", ("ID", "name", "Role", "psswdhash"))
-# psswdhash (password) = hash which returns the hash value of the given option, this gives a good 'randomized'
+# psswdhash (password) = hash which returns the hash value of the given option
+# this gives a good 'randomized'
 # password
 Alex = Employee("101", "Alex", "Cashier", psswdhash=hash("I cant remember!"))
 Sam = Employee("102", "Sam", "Delivery driver", psswdhash=hash("do you know?"))

@@ -100,7 +100,8 @@ print(drop_down_extra.current(), drop_down_extra.get())
 
 # The information of the employee
 Employee = namedtuple("Employee", ("ID", "name", "Role", "psswdhash"))
-# psswdhash (password) = hash which returns the hash value of the given option, this gives a good 'randomized'
+# psswdhash (password) = hash which returns the hash value of the given option,
+# this gives a good 'randomized'
 # password
 Alex = Employee("101", "Alex", "Cashier", psswdhash=hash("I cant remember!"))
 Sam = Employee("102", "Sam", "Delivery driver", psswdhash=hash("do you know?"))
@@ -149,17 +150,17 @@ app.mainloop()
 
 # WRONG SHIZ
 
-#root = Tk()
+# root = Tk()
 # root.geometry("1000x690")
 
 # def show():
 #    myLabel = Label(root, text=clicked.get()).pack()
 
-#clicked = StringVar()
+# clicked = StringVar()
 # clicked.set("Menu")
 
-#drop = OptionMenu(root, clicked, menu)
+# drop = OptionMenu(root, clicked, menu)
 # drop.pack()
 
-#myButton = Button(root, text="Selected_orders", command=show).pack()
+# myButton = Button(root, text="Selected_orders", command=show).pack()
 # root.mainloop()

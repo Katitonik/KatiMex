@@ -1,24 +1,27 @@
-<<<<<<< HEAD
-from tkinter import Tk
-# from tkinter import  *
+import tkinter.ttk as ttk
+import tkinter as tk
 from tkinter import ttk
+from tkinter import Tk
+<< << << < HEAD
+# from tkinter import  *
 
 
 app = Tk()
 app.title("El Fuego Cucaracha")
 app.geometry("500x400")
-=======
-import tkinter as tk
-import tkinter.ttk as ttk
+== == == =
 
 
 def new_order():
     pass
->>>>>>> d7e874298d1c0330a5e2695a3eb8894236aaf463
+
+
+>>>>>> > d7e874298d1c0330a5e2695a3eb8894236aaf463
 
 # this will be implemented by the button
 
-<<<<<<< HEAD
+<< << << < HEAD
+
 
 def client_info():
     client_name = client.get()
@@ -110,7 +113,9 @@ print(side_items.current(), side_items.get(),)
 
 
 app.mainloop()
-=======
+== == == =
+
+
 def clear_order():
     pass
 
@@ -264,4 +269,4 @@ form.mainloop()
 #     lbl_ttl| lbl_ttln
 #   frm_btn
 #     bnt_ok| btn_cancel
->>>>>>> d7e874298d1c0330a5e2695a3eb8894236aaf463
+>>>>>> > d7e874298d1c0330a5e2695a3eb8894236aaf463
