@@ -4,8 +4,10 @@ root = Tk()
 root.title('El Fuego Cocoracha orders')
 root.geometry("400x400")
 
+
 def show():
     myLabel = Label(root, text=clicked.get).pack()
+
 
 clicked = StringVar()
 clicked.set("Mole")

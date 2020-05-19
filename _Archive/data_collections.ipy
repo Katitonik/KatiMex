@@ -1,40 +1,46 @@
-#data collections are used to map and reduce data
-#lists are written with [square] brackets
-pizza_menu = ["Margarita", "Vegetarian", "Hawaiin", "Peperoni", "Greek", "Meat Lovers"]
-print(dir(pizza_menu)) #the tag dir displays all the actions that could be done with the command programmed
-#using the command .sort orders the list from a to z
+# data collections are used to map and reduce data
+# lists are written with [square] brackets
+pizza_menu = ["Margarita", "Vegetarian",
+              "Hawaiin", "Peperoni", "Greek", "Meat Lovers"]
+# the tag dir displays all the actions that could be done with the command
+# programmed
+print(dir(pizza_menu))
+# using the command .sort orders the list from a to z
 print(pizza_menu.sort())
-#print tag
+# print tag
 print(pizza_menu)
-#using the .reverse command sorts the list from z to a 
+# using the .reverse command sorts the list from z to a
 print(pizza_menu.reverse())
-#print tag
+# print tag
 print(pizza_menu)
-#append tag used for adding an item to the list
+# append tag used for adding an item to the list
 print(pizza_menu.append("Greek"))
-#print tag
+# print tag
 print(pizza_menu)
-#.count is used to display the number of items with a specific value
+# .count is used to display the number of items with a specific value
 print(pizza_menu.count("Margarita"))
-#see line 17
+# see line 17
 print(pizza_menu.count("Greek"))
-#.remove used to remove / delete an item from a list
+# .remove used to remove / delete an item from a list
 print(pizza_menu.remove("Greek"))
-#print and count tag
+# print and count tag
 print(pizza_menu.count("Greek"))
-#i sorted the list again to keep it tidy
+# i sorted the list again to keep it tidy
 print(pizza_menu.sort())
-#print tag
+# print tag
 print(pizza_menu)
-#pop tag is used to remove the last item of the list
+# pop tag is used to remove the last item of the list
 print(pizza_menu.pop())
-#print tag
+# print tag
 print(pizza_menu)
-#dict is used to define a key by a value, i defined each key with a tuple as any type of data collection type
-secret_recipes = {"Greek": ("base", "tomato paste", "cheese", "garlic"), "Hawaiin": ("base", "tomato paste", "cheese", "ham", "pineapple", "basil")}
-#print tag
+# dict is used to define a key by a value, i defined each key with a tuple
+# as any type of data collection type
+secret_recipes = {"Greek": ("base", "tomato paste", "cheese", "garlic"),
+                  "Hawaiin": ("base", "tomato paste", "cheese", "ham",
+                              "pineapple", "basil")}
+# print tag
 print(secret_recipes)
-#dir tag used to display the options that can be used with the tag 
+# dir tag used to display the options that can be used with the tag
 print(dir(tuple))
-#see line 37
+# see line 37
 print(dir(set))
