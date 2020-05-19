@@ -61,7 +61,9 @@ lbl_street = tk.Label(master=frm_header, text='Street:')
 ent_street = tk.Entry(master=frm_header, textvariable=var_street)
 
 lbl_suburb = tk.Label(master=frm_header, text='Suburb:')
-cbx_suburb = ttk.Combobox(master=frm_header, textvariable=var_suburb)
+cbx_suburb = ttk.Combobox(master=frm_header, textvariable=var_suburb, values=["Browns Bay",
+                                                                            "Torbay",
+                                                                            "Long Bay",])
 
 lbl_header.grid(row=0, column=0, sticky=tk.W)
 frm_header.grid(row=1, column=1)
@@ -84,10 +86,29 @@ lbl_items.grid(row=5, column=0)
 frm_items.grid(row=6, column=0)
 
 lbl_item = tk.Label(master=frm_items, text='Item')
-ent_item = ttk.Combobox(master=frm_items, textvar=var_item)
+ent_item = ttk.Combobox(master=frm_items, textvar=var_item, values=["Nachos",
+                                                                    "Hard Shell Tacos",
+                                                                    "Soft Shell Tacos",
+                                                                    "Chimichangas",
+                                                                    "Chiles Rellenos",
+                                                                    "Chilato de Pollo",
+                                                                    "Sopa de Cameron",
+                                                                    "Cochnita pibli",
+                                                                    "Mole",
+                                                                    "Aquachile",
+                                                                    "Enchiladas"])
+
 
 lbl_spic = tk.Label(master=frm_items, text='Spicyness:')
-cbx_spic = ttk.Combobox(master=frm_items, textvariable=var_spic)
+cbx_spic = ttk.Combobox(master=frm_items, textvariable=var_spic, values=["Mild",
+                                                                         "Hot",
+                                                                         "Flaming",
+                                                                         "Hell"])
+
+lbl_size = tk.Label(master=frm_items, text='Size: ')
+ent_size = ttk.Combobox(master=frm_items, textvariable=var_size, values=["Small",
+                                                                     "Medium",
+                                                                     "Large"])
 
 lbl_qty = tk.Label(master=frm_items, text='Quantity:')
 ent_qty = tk.Entry(master=frm_items, textvariable=var_qty)
@@ -103,9 +124,11 @@ lbl_item.grid(row=6, column=0)
 ent_item.grid(row=6, column=1)
 lbl_spic.grid(row=6, column=2)
 cbx_spic.grid(row=6, column=3)
-lbl_qty.grid(row=6, column=4)
-ent_qty.grid(row=6, column=5)
-btn_add.grid(row=6, column=6)
+lbl_size.grid(row=6, column=4)
+ent_size.grid(row=6, column=5)
+lbl_qty.grid(row=6, column=6)
+ent_qty.grid(row=6, column=7)
+btn_add.grid(row=6, column=8)
 btn_remove.grid(row=7, column=6, sticky=tk.N)
 lst_items.grid(row=7, columnspan=6)
 
