@@ -182,8 +182,8 @@ def _lookup_price(item: Union[Dish, Side], size: Size) -> Decimal:
     price_list = {
         # Dishes
         'Nachos': Decimal('10.00'),
-        'Hard shell tacos': Decimal('12.00'),
-        'Soft shell tacos': Decimal('11.50'),
+        'Hard Shell Tacos': Decimal('12.00'),
+        'Soft Shell Tacos': Decimal('11.50'),
         'Chiles Rellenos': Decimal('12.50'),
         'Chimichangas': Decimal('12.00'),
         'Chilato de Pollo': Decimal('14.00'),
