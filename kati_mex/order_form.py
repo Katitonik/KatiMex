@@ -3,9 +3,9 @@ import tkinter as tk
 import tkinter.ttk as ttk
 from tkinter.font import Font
 
-
 # form
 form = tk.Tk()
+form.title("El Fuego Cucoracha")
 
 # header variables
 header_client = tk.StringVar()
@@ -65,7 +65,12 @@ def checkout_order():
 
 
 def cancel_order():
-    pass
+    ent_cust.delete(0, tk.END)
+    ent_contact.delete(0, tk.END)
+    ent_street.delete(0, tk.END)
+    ent_contact.delete(0, tk.END)
+    ent_qty.delete(0, tk.END)
+    lst_items.delete(0, tk.END)
 
 
 def exit_order():
@@ -191,10 +196,10 @@ lst_items.grid(row=7, columnspan=6)
 # footer
 lbl_footer = tk.Label(master=form, text='Summary')
 frm_footer = tk.Frame(master=form, relief=tk.GROOVE)
-lbl_sub = tk.Label(master=frm_footer, text='Sub Total:')
-lbl_tax = tk.Label(master=frm_footer, text='Tax:')
-lbl_del = tk.Label(master=frm_footer, text='Delivery Charge:')
-lbl_ttl = tk.Label(master=frm_footer, text='Total:')
+lbl_sub = tk.Label(master=frm_footer, text='Sub Total:  ')
+lbl_tax = tk.Label(master=frm_footer, text='Tax:  ')
+lbl_del = tk.Label(master=frm_footer, text='Delivery Charge:  ')
+lbl_ttl = tk.Label(master=frm_footer, text='Total:  ')
 
 lbl_footer.grid(row=8, column=0, sticky=tk.W)
 frm_footer.grid(row=9, column=1)

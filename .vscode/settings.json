@@ -2,7 +2,7 @@
     "python.linting.pylintEnabled": false,
     "python.linting.flake8Enabled": true,
     "python.linting.enabled": true,
-    "python.pythonPath": "C:\\Users\\axlma\\.virtualenvs\\KatiMex-2hpOq8Sm\\Scripts\\python.exe",
+    "python.pythonPath": "C:\\Users\\katja\\.virtualenvs\\KatiMex-F8PZpJE4\\Scripts\\python.exe",
     "python.testing.pytestArgs": [
         "test"
     ],
