@@ -6,6 +6,7 @@ from typing import List
 from typing import Set
 from typing import Union
 
+
 class Spicyness(IntEnum):
     """ An indicator of how spycy a dish is. """
     Mild = 10
