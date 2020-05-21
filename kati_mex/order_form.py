@@ -2,7 +2,6 @@ import model as model
 import tkinter as tk
 import tkinter.ttk as ttk
 
-
 # form
 form = tk.Tk()
 
@@ -41,8 +40,7 @@ def remove_item():
 
 
 def cancel_order():
-    pass
-
+    pass  
 
 def ok_order():
     pass
