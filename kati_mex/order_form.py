@@ -1,6 +1,7 @@
 import model
 import tkinter as tk
 import tkinter.ttk as ttk
+from tkinter.font import Font
 
 
 # form
@@ -28,11 +29,11 @@ def add_item():
     size = model.Size[ent_size.get()]
     item = model.new_order_item(dish, qty, size)
     items.append(item)
-    display_item = f"{item.item.name} " \
-        f"{item.item.spicyness.name} " \
-        f"{item.size.name} " \
-        f"{item.quantity} " \
-        f"{item.item_price:.2f}"
+    display_item = f"{item.item.name: <30} " \
+        f"{item.item.spicyness.name: <8} " \
+        f"{item.size.name: <8} " \
+        f"{item.quantity: <3} @ {item.unit_price:6.2f} " \
+        f"{item.item_price:20.2f}"
     lst_items.insert(tk.END, display_item)
 
 # f"{}" formats all the values in the {braces} to strings
@@ -169,7 +170,8 @@ ent_qty = tk.Entry(master=frm_items, textvariable=items_quantity)
 btn_add = tk.Button(master=frm_items, command=add_item, text='+')
 btn_remove = tk.Button(master=frm_items, command=remove_item, text='-')
 
-lst_items = tk.Listbox(master=frm_items, width=96, selectmode=tk.SINGLE)
+fnt_items = Font(family='Consolas', size=12)
+lst_items = tk.Listbox(master=frm_items, width=96, font=fnt_items, selectmode=tk.SINGLE)
 
 lbl_items.grid(row=4, column=0, sticky=tk.W)
 frm_items.grid(row=5, column=1)
