@@ -1,3 +1,4 @@
+import model as model
 import tkinter as tk
 import tkinter.ttk as ttk
 
@@ -21,14 +22,24 @@ var_qty = tk.IntVar()
 
 # item events
 def add_item():
-    pass
+    dish = model.new_dish(ent_item.get(), model.Spicyness[cbx_spic.get()])
+    qty = int(ent_qty.get())
+    size = model.Size[ent_size.get()]
+    item = model.new_order_item(dish, qty, size)
+    print(item)
+    display_item = f"{item.item.name} {item.item.spicyness.name} {item.size.name} {item.quantity} {item.item_price:.2f}"
+    lst_items.insert(tk.END, display_item)
+
+# f"{}" formats all the values in the {braces} to strings
+# simplifying the generation of strings
 
 
 def remove_item():
-    pass
-
+    lst_items.delete(lst_items.index(tk.ACTIVE))
 
 # order events
+
+
 def cancel_order():
     pass
 
@@ -61,7 +72,10 @@ lbl_street = tk.Label(master=frm_header, text='Street:')
 ent_street = tk.Entry(master=frm_header, textvariable=var_street)
 
 lbl_suburb = tk.Label(master=frm_header, text='Suburb:')
-cbx_suburb = ttk.Combobox(master=frm_header, textvariable=var_suburb)
+cbx_suburb = ttk.Combobox(master=frm_header, textvariable=var_suburb, values=["Browns Bay",
+                                                                              "Torbay",
+                                                                              "Long Bay"])
+cbx_suburb.current(0)
 
 lbl_header.grid(row=0, column=0, sticky=tk.W)
 frm_header.grid(row=1, column=1)
@@ -84,10 +98,31 @@ lbl_items.grid(row=5, column=0)
 frm_items.grid(row=6, column=0)
 
 lbl_item = tk.Label(master=frm_items, text='Item')
-ent_item = ttk.Combobox(master=frm_items, textvar=var_item)
+ent_item = ttk.Combobox(master=frm_items, textvar=var_item, values=["Nachos",
+                                                                    "Hard Shell Tacos",
+                                                                    "Soft Shell Tacos",
+                                                                    "Chimichangas",
+                                                                    "Chiles Rellenos",
+                                                                    "Chilato de Pollo",
+                                                                    "Sopa de Cameron",
+                                                                    "Cochnita pibli",
+                                                                    "Mole",
+                                                                    "Aquachile",
+                                                                    "Enchiladas"])
+ent_item.current(0)
 
 lbl_spic = tk.Label(master=frm_items, text='Spicyness:')
-cbx_spic = ttk.Combobox(master=frm_items, textvariable=var_spic)
+cbx_spic = ttk.Combobox(master=frm_items, textvariable=var_spic, values=["Mild",
+                                                                         "Hot",
+                                                                         "Flaming",
+                                                                         "Hell"])
+cbx_spic.current(0)
+
+lbl_size = tk.Label(master=frm_items, text='Size: ')
+ent_size = ttk.Combobox(master=frm_items, textvariable=var_size, values=["Small",
+                                                                         "Medium",
+                                                                         "Large"])
+ent_size.current(0)
 
 lbl_qty = tk.Label(master=frm_items, text='Quantity:')
 ent_qty = tk.Entry(master=frm_items, textvariable=var_qty)
@@ -103,14 +138,14 @@ lbl_item.grid(row=6, column=0)
 ent_item.grid(row=6, column=1)
 lbl_spic.grid(row=6, column=2)
 cbx_spic.grid(row=6, column=3)
-lbl_qty.grid(row=6, column=4)
-ent_qty.grid(row=6, column=5)
-btn_add.grid(row=6, column=6)
+lbl_size.grid(row=6, column=4)
+ent_size.grid(row=6, column=5)
+lbl_qty.grid(row=6, column=6)
+ent_qty.grid(row=6, column=7)
+btn_add.grid(row=6, column=8)
 btn_remove.grid(row=7, column=6, sticky=tk.N)
 lst_items.grid(row=7, columnspan=6)
 
-for i in "1,2,3,4".split(','):
-    lst_items.insert(tk.END, i)
 
 # footer
 lbl_footer = tk.Label(master=form, text='Summary')
@@ -129,7 +164,8 @@ lbl_ttl.grid(row=13, column=6, sticky=tk.E)
 
 # buttons
 btn_ok = tk.Button(master=form, command=ok_order, width=10, text='Ok')
-btn_cancel = tk.Button(master=form, command=cancel_order, width=10, text='Cancel')
+btn_cancel = tk.Button(master=form, command=cancel_order,
+                       width=10, text='Cancel')
 btn_exit = tk.Button(master=form, command=exit_order, width=10, text='Exit')
 
 btn_ok.grid(row=12, column=2)
