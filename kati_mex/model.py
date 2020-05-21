@@ -4,7 +4,6 @@ from enum import IntEnum
 from typing import NamedTuple
 from typing import List
 from typing import Set
-from typing import Union
 
 
 class Spicyness(IntEnum):
@@ -38,43 +37,6 @@ def new_dish(name: str, spicyness: Spicyness) -> Dish:
     return result
 
 
-class Side(NamedTuple):
-    """ A side dish. ¡Ay!. """
-    name: str
-
-
-def new_side(name: str) -> Side:
-    """ Create a side dish.
-
-    Args:
-        name (str): The name of the side dish.
-
-    Returns:
-        A new side dish.
-    """
-    if (name == "") or (name is None):
-        raise ValueError('Dish name cannot be empty or None.')
-
-    result = Side(name=name)
-    return result
-
-
-class Role(IntEnum):
-    """ The role of an employee. ¡Ole! """
-    Chef = 10
-    Server = 20
-    Driver = 30
-    Cashier = 40
-    Boss = 50
-
-
-class Employee(NamedTuple):
-    """ An employee of KatiMex. ¡Ándele, ándele! """
-    number: str
-    name: str
-    role: Role
-
-
 def _generate_id(now: datetime) -> str:
     tt = now.timetuple()
     ty = tt.tm_year
@@ -85,26 +47,10 @@ def _generate_id(now: datetime) -> str:
     return result
 
 
-def new_employee(name: str, role: Role) -> Employee:
-    """ Create a new employee.
-
-    Args:
-        name (str): The employee's name.
-        role (Role): The role of the employee.
-
-    Returns:
-        A new employee.
-    """
-    now = datetime.now()
-    result = Employee(number=_generate_id(now), name=name, role=role)
-    return result
-
-
 class OrderHeader(NamedTuple):
     """ Order header to identify the order. """
     number: str
     date: datetime
-    taker: Employee
     deliver: bool
     client_name: str
     client_contact: str
@@ -113,7 +59,6 @@ class OrderHeader(NamedTuple):
 
 
 def new_order_header(
-    taker: Employee,
     deliver: bool,
     client_name: str,
     client_contact: str,
@@ -141,7 +86,6 @@ def new_order_header(
     result = OrderHeader(
         number=_generate_id(now),
         date=now,
-        taker=taker,
         deliver=deliver,
         client_name=client_name,
         client_contact=client_contact,
@@ -163,14 +107,14 @@ class OrderItem(NamedTuple):
 
     An order usually has multiple order items.
     """
-    item: Union[Dish, Side]
+    item: Dish
     quantity: int
     size: Size
     unit_price: Decimal
     item_price: Decimal
 
 
-def _lookup_price(item: Union[Dish, Side], size: Size) -> Decimal:
+def _lookup_price(item: Dish, size: Size) -> Decimal:
     # Look up a dish or side dish's price.
     #
     # Args:
@@ -182,22 +126,17 @@ def _lookup_price(item: Union[Dish, Side], size: Size) -> Decimal:
     #     A price based on the dish/side dish and the size of the item.
     price_list = {
         # Dishes
-        'Nachos': Decimal('10.00'),
-        'Hard Shell Tacos': Decimal('12.00'),
-        'Soft Shell Tacos': Decimal('11.50'),
+        'Aguachile': Decimal('15.00'),
+        'Chilato de Pollo': Decimal('14.00'),
         'Chiles Rellenos': Decimal('12.50'),
         'Chimichangas': Decimal('12.00'),
-        'Chilato de Pollo': Decimal('14.00'),
-        'Sopa de Cameron': Decimal('13.50'),
         'Cochnita pibli': Decimal('11.00'),
-        'Mole': Decimal('10.00'),
-        'Aguachile': Decimal('15.00'),
         'Enchiladas': Decimal('9.00'),
-        # Sides
-        'Guakamole': Decimal('4.50'),
-        'Sour Cream': Decimal('3.50'),
-        'Chips': Decimal('3.00'),
-        'Soft Drink': Decimal('2.50')
+        'Hard Shell Tacos': Decimal('12.00'),
+        'Mole': Decimal('10.00'),
+        'Nachos': Decimal('10.00'),
+        'Soft Shell Tacos': Decimal('11.50'),
+        'Sopa de Cameron': Decimal('13.50'),
     }
     scale_factor = {
         Size.Small: Decimal('1.00'),
@@ -213,7 +152,7 @@ def _lookup_price(item: Union[Dish, Side], size: Size) -> Decimal:
 
 
 def new_order_item(
-    item: Union[Dish, Side],
+    item: Dish,
     quantity: int,
     size: Size
 ) -> OrderItem:
@@ -242,7 +181,7 @@ def new_order_item(
 class OrderFooter(NamedTuple):
     """ Summary of an order. """
     delivery_charge: Decimal
-    item_total: Decimal
+    subtotal: Decimal
     tax: Decimal
     total: Decimal
 
@@ -264,17 +203,17 @@ def new_order_footer(
     if header.deliver:
         delivery_charge = Decimal('3.00')
 
-    item_total = Decimal('0.00')
+    subtotal = Decimal('0.00')
     for item in items:
-        item_total += item.item_price
+        subtotal += item.item_price
 
-    tax = item_total * Decimal('0.14')
+    tax = subtotal * Decimal('0.14')
 
-    total = delivery_charge + item_total + tax
+    total = delivery_charge + subtotal + tax
 
     result = OrderFooter(
         delivery_charge=delivery_charge,
-        item_total=item_total,
+        subtotal=subtotal,
         tax=tax,
         total=total)
     return result
@@ -293,7 +232,6 @@ class Order(NamedTuple):
 def new_order(
     header: OrderHeader,
     items: List[OrderItem],
-    footer: OrderFooter
 ) -> Order:
     """ Create an order.
 
@@ -305,6 +243,7 @@ def new_order(
     Returns:
         A newly created order.
     """
+    footer = new_order_footer(header, items)
     result = Order(header=header, items=items, footer=footer)
     return result
 
