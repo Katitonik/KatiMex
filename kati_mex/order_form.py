@@ -14,6 +14,7 @@ var_street = tk.StringVar()
 var_suburb = tk.StringVar()
 
 # item variables
+var_items = []
 var_item = tk.StringVar()
 var_spic = tk.StringVar()
 var_size = tk.StringVar()
@@ -26,8 +27,12 @@ def add_item():
     qty = int(ent_qty.get())
     size = model.Size[ent_size.get()]
     item = model.new_order_item(dish, qty, size)
-    print(item)
-    display_item = f"{item.item.name} {item.item.spicyness.name} {item.size.name} {item.quantity} {item.item_price:.2f}"
+    var_items.append(item)
+    display_item = f"{item.item.name} " \
+        f"{item.item.spicyness.name} " \
+        f"{item.size.name} " \
+        f"{item.quantity} " \
+        f"{item.item_price:.2f}"
     lst_items.insert(tk.END, display_item)
 
 # f"{}" formats all the values in the {braces} to strings
@@ -35,7 +40,10 @@ def add_item():
 
 
 def remove_item():
-    lst_items.delete(lst_items.index(tk.ACTIVE))
+    selected_item = lst_items.index(tk.ACTIVE)
+    if len(var_items):
+        del(var_items[selected_item])
+    lst_items.delete(selected_item)
 
 # order events
 
@@ -72,9 +80,14 @@ lbl_street = tk.Label(master=frm_header, text='Street:')
 ent_street = tk.Entry(master=frm_header, textvariable=var_street)
 
 lbl_suburb = tk.Label(master=frm_header, text='Suburb:')
-cbx_suburb = ttk.Combobox(master=frm_header, textvariable=var_suburb, values=["Browns Bay",
-                                                                              "Torbay",
-                                                                              "Long Bay"])
+cbx_suburb = ttk.Combobox(
+    master=frm_header,
+    textvariable=var_suburb,
+    values=[
+        "Browns Bay",
+        "Torbay",
+        "Long Bay"
+    ])
 cbx_suburb.current(0)
 
 lbl_header.grid(row=0, column=0, sticky=tk.W)
@@ -98,30 +111,45 @@ lbl_items.grid(row=5, column=0)
 frm_items.grid(row=6, column=0)
 
 lbl_item = tk.Label(master=frm_items, text='Item')
-ent_item = ttk.Combobox(master=frm_items, textvar=var_item, values=["Nachos",
-                                                                    "Hard Shell Tacos",
-                                                                    "Soft Shell Tacos",
-                                                                    "Chimichangas",
-                                                                    "Chiles Rellenos",
-                                                                    "Chilato de Pollo",
-                                                                    "Sopa de Cameron",
-                                                                    "Cochnita pibli",
-                                                                    "Mole",
-                                                                    "Aquachile",
-                                                                    "Enchiladas"])
+ent_item = ttk.Combobox(
+    master=frm_items,
+    textvar=var_item,
+    values=[
+        "Nachos",
+        "Hard Shell Tacos",
+        "Soft Shell Tacos",
+        "Chimichangas",
+        "Chiles Rellenos",
+        "Chilato de Pollo",
+        "Sopa de Cameron",
+        "Cochnita pibli",
+        "Mole",
+        "Aquachile",
+        "Enchiladas"
+    ])
 ent_item.current(0)
 
 lbl_spic = tk.Label(master=frm_items, text='Spicyness:')
-cbx_spic = ttk.Combobox(master=frm_items, textvariable=var_spic, values=["Mild",
-                                                                         "Hot",
-                                                                         "Flaming",
-                                                                         "Hell"])
+cbx_spic = ttk.Combobox(
+    master=frm_items,
+    textvariable=var_spic,
+    values=[
+        "Mild",
+        "Hot",
+        "Flaming",
+        "Hell"
+    ])
 cbx_spic.current(0)
 
 lbl_size = tk.Label(master=frm_items, text='Size: ')
-ent_size = ttk.Combobox(master=frm_items, textvariable=var_size, values=["Small",
-                                                                         "Medium",
-                                                                         "Large"])
+ent_size = ttk.Combobox(
+    master=frm_items,
+    textvariable=var_size,
+    values=[
+        "Small",
+        "Medium",
+        "Large"
+    ])
 ent_size.current(0)
 
 lbl_qty = tk.Label(master=frm_items, text='Quantity:')
