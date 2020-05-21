@@ -21,6 +21,12 @@ items_spicyness = tk.StringVar()
 items_size = tk.StringVar()
 items_quantity = tk.IntVar()
 
+# footer constants
+footer_sub_label = 'Sub Total:  '
+footer_tax_label = 'Tax:  '
+footer_delivery_label = 'Delivery Charge:  '
+footer_total_label = 'Total:  '
+
 
 # item events
 def add_item():
@@ -56,10 +62,15 @@ def checkout_order():
         client_contact=header_contact.get(),
         client_suburb=header_suburb.get())
     order = model.new_order(header, items)
-    lbl_sub['text'] = lbl_sub['text'] + f"{order.footer.subtotal:.2f}"
-    lbl_tax['text'] = lbl_tax['text'] + f"{order.footer.tax:.2f}"
-    lbl_del['text'] = lbl_del['text'] + f"{order.footer.delivery_charge:.2f}"
-    lbl_ttl['text'] = lbl_ttl['text'] + f"{order.footer.total:.2f}"
+    lbl_sub['text'] = ''
+    lbl_sub['text'] = footer_sub_label + f"{order.footer.subtotal:.2f}"
+    lbl_tax['text'] = ''
+    lbl_tax['text'] = footer_tax_label + f"{order.footer.tax:.2f}"
+    lbl_del['text'] = ''
+    lbl_del['text'] = footer_delivery_label + \
+        f"{order.footer.delivery_charge:.2f}"
+    lbl_ttl['text'] = ''
+    lbl_ttl['text'] = footer_total_label + f"{order.footer.total:.2f}"
 
     print(order)
 
@@ -71,6 +82,10 @@ def cancel_order():
     ent_contact.delete(0, tk.END)
     ent_qty.delete(0, tk.END)
     lst_items.delete(0, tk.END)
+    lbl_sub['text'] = footer_sub_label
+    lbl_tax['text'] = footer_tax_label
+    lbl_del['text'] = footer_delivery_label
+    lbl_ttl['text'] = footer_total_label
 
 
 def exit_order():
@@ -176,7 +191,8 @@ btn_add = tk.Button(master=frm_items, command=add_item, text='+')
 btn_remove = tk.Button(master=frm_items, command=remove_item, text='-')
 
 fnt_items = Font(family='Consolas', size=12)
-lst_items = tk.Listbox(master=frm_items, width=96, font=fnt_items, selectmode=tk.SINGLE)
+lst_items = tk.Listbox(master=frm_items, width=96, font=fnt_items,
+                       selectmode=tk.SINGLE)
 
 lbl_items.grid(row=4, column=0, sticky=tk.W)
 frm_items.grid(row=5, column=1)
@@ -196,10 +212,10 @@ lst_items.grid(row=7, columnspan=6)
 # footer
 lbl_footer = tk.Label(master=form, text='Summary')
 frm_footer = tk.Frame(master=form, relief=tk.GROOVE)
-lbl_sub = tk.Label(master=frm_footer, text='Sub Total:  ')
-lbl_tax = tk.Label(master=frm_footer, text='Tax:  ')
-lbl_del = tk.Label(master=frm_footer, text='Delivery Charge:  ')
-lbl_ttl = tk.Label(master=frm_footer, text='Total:  ')
+lbl_sub = tk.Label(master=frm_footer, text=footer_sub_label)
+lbl_tax = tk.Label(master=frm_footer, text=footer_tax_label)
+lbl_del = tk.Label(master=frm_footer, text=footer_delivery_label)
+lbl_ttl = tk.Label(master=frm_footer, text=footer_total_label)
 
 lbl_footer.grid(row=8, column=0, sticky=tk.W)
 frm_footer.grid(row=9, column=1)
@@ -211,8 +227,8 @@ lbl_ttl.grid(row=13, column=6, sticky=tk.E)
 # buttons
 btn_checkout = tk.Button(master=form, command=checkout_order, width=10,
                          text='Checkout')
-btn_cancel = tk.Button(master=form, command=cancel_order,
-                       width=10, text='Cancel')
+btn_cancel = tk.Button(master=form, command=cancel_order, width=10,
+                       text='Cancel')
 btn_exit = tk.Button(master=form, command=exit_order, width=10, text='Exit')
 
 btn_checkout.grid(row=12, column=2)
@@ -221,23 +237,3 @@ btn_exit.grid(row=14, column=2)
 
 
 form.mainloop()
-
-# order_window
-#   lbl_header
-#   frm_header
-#     lbl_cust| ent_cust| lbl_contact| ent_contact
-#     lbl_collect| rbtn_collect
-#     lbl_street| ent_street| lbl_suburb| dd_suburb
-#   lbl_items
-#   frm_items
-#     lbl_item| dd_item| lbl_spic| dd_spic| lbl_qty| ent_qty
-#     btn_ok| btn_cancel
-#     order table
-#   lbl_summary
-#   frm_summary
-#     lbl_sub| lbl_subn
-#     lbl_tax| lbl_taxn
-#     lbl_del| lbl_deln
-#     lbl_ttl| lbl_ttln
-#   frm_btn
-#     bnt_ok| btn_cancel
