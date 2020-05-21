@@ -6,7 +6,7 @@ import kati_mex.model as model
 def test_single_small_dish_order_item():
     dish = model.new_dish('Mole', model.Spicyness.Hot)
     item = model.new_order_item(dish, 1, model.Size.Small)
-    lhs = Decimal('10.00')
+    lhs = Decimal('11.50')
     rhs = item.item_price
 
     assert lhs == rhs
@@ -15,7 +15,7 @@ def test_single_small_dish_order_item():
 def test_multiple_small_dish_order_items():
     dish = model.new_dish('Mole', model.Spicyness.Hot)
     item = model.new_order_item(dish, 3, model.Size.Small)
-    lhs = Decimal('30.00')
+    lhs = Decimal('34.50')
     rhs = item.item_price
 
     assert lhs == rhs
@@ -24,7 +24,7 @@ def test_multiple_small_dish_order_items():
 def test_multiple_medium_dish_order_items():
     dish = model.new_dish('Mole', model.Spicyness.Hot)
     item = model.new_order_item(dish, 3, model.Size.Medium)
-    lhs = Decimal('36.00')
+    lhs = Decimal('41.40')
     rhs = item.item_price
 
     assert lhs == rhs
