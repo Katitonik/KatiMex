@@ -1,4 +1,4 @@
-import model as model
+import model
 import tkinter as tk
 import tkinter.ttk as ttk
 
@@ -7,18 +7,18 @@ import tkinter.ttk as ttk
 form = tk.Tk()
 
 # header variables
-var_cust = tk.StringVar()
-var_contact = tk.StringVar()
-var_deliver = tk.BooleanVar()
-var_street = tk.StringVar()
-var_suburb = tk.StringVar()
+header_client = tk.StringVar()
+header_contact = tk.StringVar()
+header_deliver = tk.BooleanVar()
+header_street = tk.StringVar()
+header_suburb = tk.StringVar()
 
 # item variables
-var_items = []
-var_item = tk.StringVar()
-var_spic = tk.StringVar()
-var_size = tk.StringVar()
-var_qty = tk.IntVar()
+items = []
+items_item = tk.StringVar()
+items_spicyness = tk.StringVar()
+items_size = tk.StringVar()
+items_quantity = tk.IntVar()
 
 
 # item events
@@ -27,7 +27,7 @@ def add_item():
     qty = int(ent_qty.get())
     size = model.Size[ent_size.get()]
     item = model.new_order_item(dish, qty, size)
-    var_items.append(item)
+    items.append(item)
     display_item = f"{item.item.name} " \
         f"{item.item.spicyness.name} " \
         f"{item.size.name} " \
@@ -41,18 +41,29 @@ def add_item():
 
 def remove_item():
     selected_item = lst_items.index(tk.ACTIVE)
-    if len(var_items):
-        del(var_items[selected_item])
+    if len(items):
+        del(items[selected_item])
     lst_items.delete(selected_item)
 
+
 # order events
+def checkout_order():
+    header = model.new_order_header(
+        deliver=header_deliver.get(),
+        client_name=header_client.get(),
+        client_street=header_street.get(),
+        client_contact=header_contact.get(),
+        client_suburb=header_suburb.get())
+    order = model.new_order(header, items)
+    lbl_sub['text'] = lbl_sub['text'] + f"{order.footer.subtotal:.2f}"
+    lbl_tax['text'] = lbl_tax['text'] + f"{order.footer.tax:.2f}"
+    lbl_del['text'] = lbl_del['text'] + f"{order.footer.delivery_charge:.2f}"
+    lbl_ttl['text'] = lbl_ttl['text'] + f"{order.footer.total:.2f}"
+
+    print(order)
 
 
 def cancel_order():
-    pass
-
-
-def ok_order():
     pass
 
 
@@ -66,23 +77,23 @@ lbl_header = tk.Label(master=form, text='Customer Details')
 frm_header = tk.Frame(master=form, relief=tk.RAISED, borderwidth=1)
 
 lbl_cust = tk.Label(master=frm_header, text='Customer:')
-ent_cust = tk.Entry(master=frm_header, textvariable=var_cust)
+ent_cust = tk.Entry(master=frm_header, textvariable=header_client)
 
 lbl_contact = tk.Label(master=frm_header, text='Contact:')
-ent_contact = tk.Entry(master=frm_header, textvariable=var_contact)
+ent_contact = tk.Entry(master=frm_header, textvariable=header_contact)
 
 rbtn_collect = tk.Radiobutton(master=frm_header, text='Collect',
-                              variable=var_deliver, value=False)
+                              variable=header_deliver, value=False)
 rbtn_deliver = tk.Radiobutton(master=frm_header, text='Deliver',
-                              variable=var_deliver, value=True)
+                              variable=header_deliver, value=True)
 
 lbl_street = tk.Label(master=frm_header, text='Street:')
-ent_street = tk.Entry(master=frm_header, textvariable=var_street)
+ent_street = tk.Entry(master=frm_header, textvariable=header_street)
 
 lbl_suburb = tk.Label(master=frm_header, text='Suburb:')
 cbx_suburb = ttk.Combobox(
     master=frm_header,
-    textvariable=var_suburb,
+    textvariable=header_suburb,
     values=[
         "Browns Bay",
         "Torbay",
@@ -113,7 +124,7 @@ frm_items.grid(row=6, column=0)
 lbl_item = tk.Label(master=frm_items, text='Item')
 ent_item = ttk.Combobox(
     master=frm_items,
-    textvar=var_item,
+    textvar=items_item,
     values=[
         "Nachos",
         "Hard Shell Tacos",
@@ -132,7 +143,7 @@ ent_item.current(0)
 lbl_spic = tk.Label(master=frm_items, text='Spicyness:')
 cbx_spic = ttk.Combobox(
     master=frm_items,
-    textvariable=var_spic,
+    textvariable=items_spicyness,
     values=[
         "Mild",
         "Hot",
@@ -144,7 +155,7 @@ cbx_spic.current(0)
 lbl_size = tk.Label(master=frm_items, text='Size: ')
 ent_size = ttk.Combobox(
     master=frm_items,
-    textvariable=var_size,
+    textvariable=items_size,
     values=[
         "Small",
         "Medium",
@@ -153,7 +164,7 @@ ent_size = ttk.Combobox(
 ent_size.current(0)
 
 lbl_qty = tk.Label(master=frm_items, text='Quantity:')
-ent_qty = tk.Entry(master=frm_items, textvariable=var_qty)
+ent_qty = tk.Entry(master=frm_items, textvariable=items_quantity)
 
 btn_add = tk.Button(master=frm_items, command=add_item, text='+')
 btn_remove = tk.Button(master=frm_items, command=remove_item, text='-')
@@ -191,12 +202,13 @@ lbl_del.grid(row=12, column=6, sticky=tk.E)
 lbl_ttl.grid(row=13, column=6, sticky=tk.E)
 
 # buttons
-btn_ok = tk.Button(master=form, command=ok_order, width=10, text='Ok')
+btn_checkout = tk.Button(master=form, command=checkout_order, width=10,
+                         text='Checkout')
 btn_cancel = tk.Button(master=form, command=cancel_order,
                        width=10, text='Cancel')
 btn_exit = tk.Button(master=form, command=exit_order, width=10, text='Exit')
 
-btn_ok.grid(row=12, column=2)
+btn_checkout.grid(row=12, column=2)
 btn_cancel.grid(row=13, column=2)
 btn_exit.grid(row=14, column=2)
 
