@@ -30,40 +30,8 @@ def test_multiple_medium_dish_order_items():
     assert lhs == rhs
 
 
-def test_single_small_side_order_item():
-    side = model.new_side('Chips')
-    item = model.new_order_item(side, 1, model.Size.Small)
-    lhs = Decimal('3.00')
-    rhs = item.item_price
-
-    assert lhs == rhs
-
-
-def test_multiple_small_side_order_items():
-    side = model.new_side('Chips')
-    item = model.new_order_item(side, 3, model.Size.Small)
-    lhs = Decimal('9.00')
-    rhs = item.item_price
-
-    assert lhs == rhs
-
-
-def test_multiple_large_side_order_items():
-    side = model.new_side('Chips')
-    item = model.new_order_item(side, 3, model.Size.Large)
-    lhs = Decimal('11.70')
-    rhs = item.item_price
-
-    assert lhs == rhs
-
-
-def _mk_employee():
-    return model.new_employee("Jo", model.Role.Cashier)
-
-
 def test_delivery_order_header():
     header = model.new_order_header(
-        taker=_mk_employee(),
         deliver=True,
         client_name="Jo",
         client_contact="+64 12 345 6789",
@@ -77,7 +45,6 @@ def test_delivery_order_header():
 def test_delivery_order_header_failure():
     with pytest.raises(ValueError):
         model.new_order_header(
-            taker=_mk_employee(),
             deliver=True,
             client_name="Jo",
             client_contact="+64 12 345 6789",
@@ -91,7 +58,6 @@ def test_collect_order_footer():
     from decimal import Decimal
 
     order_header = model.new_order_header(
-        taker=_mk_employee(),
         deliver=False,
         client_name="",
         client_contact="",
@@ -114,17 +80,17 @@ def test_collect_order_footer():
 
     footer = model.new_order_footer(order_header, order_items)
 
-    item_total = order_items[0].item_price + \
+    subtotal = order_items[0].item_price + \
         order_items[1].item_price + \
         order_items[2].item_price + \
         order_items[3].item_price + \
         order_items[4].item_price
-    assert footer.item_total == item_total
+    assert footer.subtotal == subtotal
 
-    tax = item_total * Decimal('0.14')
+    tax = subtotal * Decimal('0.14')
     assert footer.tax == tax
 
-    total = item_total + tax
+    total = subtotal + tax
     assert footer.total == total
 
 
@@ -133,7 +99,6 @@ def test_delivery_order_footer():
     from decimal import Decimal
 
     order_header = model.new_order_header(
-        taker=_mk_employee(),
         deliver=True,
         client_name="Alex",
         client_contact="+64 12 345 6789",
@@ -159,15 +124,15 @@ def test_delivery_order_footer():
     delivery_charge = Decimal('3.00')
     assert footer.delivery_charge == delivery_charge
 
-    item_total = order_items[0].item_price + \
+    subtotal = order_items[0].item_price + \
         order_items[1].item_price + \
         order_items[2].item_price + \
         order_items[3].item_price + \
         order_items[4].item_price
-    assert footer.item_total == item_total
+    assert footer.subtotal == subtotal
 
-    tax = item_total * Decimal('0.14')
+    tax = subtotal * Decimal('0.14')
     assert footer.tax == tax
 
-    total = delivery_charge + item_total + tax
+    total = delivery_charge + subtotal + tax
     assert footer.total == total
