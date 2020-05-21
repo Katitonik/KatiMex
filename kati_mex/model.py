@@ -4,7 +4,6 @@ from enum import IntEnum
 from typing import NamedTuple
 from typing import List
 from typing import Set
-from typing import Union
 
 
 class Spicyness(IntEnum):
@@ -38,43 +37,6 @@ def new_dish(name: str, spicyness: Spicyness) -> Dish:
     return result
 
 
-class Side(NamedTuple):
-    """ A side dish. ¡Ay!. """
-    name: str
-
-
-def new_side(name: str) -> Side:
-    """ Create a side dish.
-
-    Args:
-        name (str): The name of the side dish.
-
-    Returns:
-        A new side dish.
-    """
-    if (name == "") or (name is None):
-        raise ValueError('Dish name cannot be empty or None.')
-
-    result = Side(name=name)
-    return result
-
-
-class Role(IntEnum):
-    """ The role of an employee. ¡Ole! """
-    Chef = 10
-    Server = 20
-    Driver = 30
-    Cashier = 40
-    Boss = 50
-
-
-class Employee(NamedTuple):
-    """ An employee of KatiMex. ¡Ándele, ándele! """
-    number: str
-    name: str
-    role: Role
-
-
 def _generate_id(now: datetime) -> str:
     tt = now.timetuple()
     ty = tt.tm_year
@@ -85,26 +47,10 @@ def _generate_id(now: datetime) -> str:
     return result
 
 
-def new_employee(name: str, role: Role) -> Employee:
-    """ Create a new employee.
-
-    Args:
-        name (str): The employee's name.
-        role (Role): The role of the employee.
-
-    Returns:
-        A new employee.
-    """
-    now = datetime.now()
-    result = Employee(number=_generate_id(now), name=name, role=role)
-    return result
-
-
 class OrderHeader(NamedTuple):
     """ Order header to identify the order. """
     number: str
     date: datetime
-    taker: Employee
     deliver: bool
     client_name: str
     client_contact: str
@@ -113,7 +59,6 @@ class OrderHeader(NamedTuple):
 
 
 def new_order_header(
-    taker: Employee,
     deliver: bool,
     client_name: str,
     client_contact: str,
@@ -141,7 +86,6 @@ def new_order_header(
     result = OrderHeader(
         number=_generate_id(now),
         date=now,
-        taker=taker,
         deliver=deliver,
         client_name=client_name,
         client_contact=client_contact,
@@ -163,14 +107,14 @@ class OrderItem(NamedTuple):
 
     An order usually has multiple order items.
     """
-    item: Union[Dish, Side]
+    item: Dish
     quantity: int
     size: Size
     unit_price: Decimal
     item_price: Decimal
 
 
-def _lookup_price(item: Union[Dish, Side], size: Size) -> Decimal:
+def _lookup_price(item: Dish, size: Size) -> Decimal:
     # Look up a dish or side dish's price.
     #
     # Args:
@@ -213,7 +157,7 @@ def _lookup_price(item: Union[Dish, Side], size: Size) -> Decimal:
 
 
 def new_order_item(
-    item: Union[Dish, Side],
+    item: Dish,
     quantity: int,
     size: Size
 ) -> OrderItem:
