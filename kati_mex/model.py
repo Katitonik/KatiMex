@@ -126,22 +126,17 @@ def _lookup_price(item: Dish, size: Size) -> Decimal:
     #     A price based on the dish/side dish and the size of the item.
     price_list = {
         # Dishes
-        'Nachos': Decimal('10.00'),
-        'Hard Shell Tacos': Decimal('12.00'),
-        'Soft Shell Tacos': Decimal('11.50'),
+        'Aguachile': Decimal('15.00'),
+        'Chilato de Pollo': Decimal('14.00'),
         'Chiles Rellenos': Decimal('12.50'),
         'Chimichangas': Decimal('12.00'),
-        'Chilato de Pollo': Decimal('14.00'),
-        'Sopa de Cameron': Decimal('13.50'),
         'Cochnita pibli': Decimal('11.00'),
-        'Mole': Decimal('10.00'),
-        'Aguachile': Decimal('15.00'),
         'Enchiladas': Decimal('9.00'),
-        # Sides
-        'Guakamole': Decimal('4.50'),
-        'Sour Cream': Decimal('3.50'),
-        'Chips': Decimal('3.00'),
-        'Soft Drink': Decimal('2.50')
+        'Hard Shell Tacos': Decimal('12.00'),
+        'Mole': Decimal('10.00'),
+        'Nachos': Decimal('10.00'),
+        'Soft Shell Tacos': Decimal('11.50'),
+        'Sopa de Cameron': Decimal('13.50'),
     }
     scale_factor = {
         Size.Small: Decimal('1.00'),
@@ -186,7 +181,7 @@ def new_order_item(
 class OrderFooter(NamedTuple):
     """ Summary of an order. """
     delivery_charge: Decimal
-    item_total: Decimal
+    subtotal: Decimal
     tax: Decimal
     total: Decimal
 
@@ -208,17 +203,17 @@ def new_order_footer(
     if header.deliver:
         delivery_charge = Decimal('3.00')
 
-    item_total = Decimal('0.00')
+    subtotal = Decimal('0.00')
     for item in items:
-        item_total += item.item_price
+        subtotal += item.item_price
 
-    tax = item_total * Decimal('0.14')
+    tax = subtotal * Decimal('0.14')
 
-    total = delivery_charge + item_total + tax
+    total = delivery_charge + subtotal + tax
 
     result = OrderFooter(
         delivery_charge=delivery_charge,
-        item_total=item_total,
+        subtotal=subtotal,
         tax=tax,
         total=total)
     return result
@@ -237,7 +232,6 @@ class Order(NamedTuple):
 def new_order(
     header: OrderHeader,
     items: List[OrderItem],
-    footer: OrderFooter
 ) -> Order:
     """ Create an order.
 
@@ -249,6 +243,7 @@ def new_order(
     Returns:
         A newly created order.
     """
+    footer = new_order_footer(header, items)
     result = Order(header=header, items=items, footer=footer)
     return result
 
