@@ -68,12 +68,11 @@ def new_order_header(
     """ Create a new order header.
 
     Args:
-        taker (Employee): Who took the order?
         deliver (bool): Is this order for delivery?
         client_name (str): Client identifier.
         client_contact (str): Contact telephone nmber.
         client_street (str): Street name.
-        client_suburb (str): Ditto.
+        client_suburb (str): Suburb name.
 
     Returns:
         A new order header.
@@ -126,17 +125,17 @@ def _lookup_price(item: Dish, size: Size) -> Decimal:
     #     A price based on the dish/side dish and the size of the item.
     price_list = {
         # Dishes
-        'Aguachile': Decimal('15.00'),
-        'Chilato de Pollo': Decimal('14.00'),
-        'Chiles Rellenos': Decimal('12.50'),
-        'Chimichangas': Decimal('12.00'),
-        'Cochnita pibli': Decimal('11.00'),
-        'Enchiladas': Decimal('9.00'),
-        'Hard Shell Tacos': Decimal('12.00'),
-        'Mole': Decimal('10.00'),
-        'Nachos': Decimal('10.00'),
-        'Soft Shell Tacos': Decimal('11.50'),
-        'Sopa de Cameron': Decimal('13.50'),
+        'Aguachile': Decimal('11.50'),
+        'Chilato de Pollo': Decimal('08.50'),
+        'Chiles Rellenos': Decimal('08.50'),
+        'Chimichangas': Decimal('08.50'),
+        'Cochnita pibli': Decimal('11.50'),
+        'Enchiladas': Decimal('08.50'),
+        'Hard Shell Tacos': Decimal('08.50'),
+        'Mole': Decimal('11.50'),
+        'Nachos': Decimal('08.50'),
+        'Soft Shell Tacos': Decimal('08.50'),
+        'Sopa de Cameron': Decimal('11.50'),
     }
     scale_factor = {
         Size.Small: Decimal('1.00'),

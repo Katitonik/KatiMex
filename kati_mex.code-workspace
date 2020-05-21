@@ -4,5 +4,7 @@
 			"path": "."
 		}
 	],
-	"settings": {}
+	"settings": {
+		"python.pythonPath": "C:\\Users\\katja\\.virtualenvs\\KatiMex-F8PZpJE4\\Scripts\\python.exe"
+	}
 }
