@@ -185,7 +185,9 @@ ent_size = ttk.Combobox(
 ent_size.current(0)
 
 lbl_qty = tk.Label(master=frm_items, text='Quantity:')
-ent_qty = tk.Entry(master=frm_items, textvariable=items_quantity)
+#ent_qty = tk.Entry(master=frm_items, textvariable=items_quantity)
+ent_qty = ttk.Combobox(master=frm_items, textvariable=items_quantity,
+                       values=['1', '2', '3', '4', '5'], state='readonly')
 
 btn_add = tk.Button(master=frm_items, command=add_item, text='+')
 btn_remove = tk.Button(master=frm_items, command=remove_item, text='-')
